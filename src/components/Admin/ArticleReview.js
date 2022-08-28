@@ -11,7 +11,7 @@ const ArticleReview = () => {
   const navigate = useNavigate();
 
   const fetchData = useCallback(async () => {
-    await fetch(`http://192.168.1.105:3000/reviews/${id}`)
+    await fetch(`http://localhost:3001/reviews/${id}`)
       .then((res) => res.json())
       .then((data) => {
         setReviews(data.reviewList);
@@ -22,7 +22,7 @@ const ArticleReview = () => {
     fetchData();
   }, [fetchData]);
   const submitHandler = (status) => {
-    fetch(`http://192.168.1.105:3000/submit`, {
+    fetch(`http://localhost:3001/submit`, {
       method: "POST",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify({ status, id }),
@@ -35,7 +35,7 @@ const ArticleReview = () => {
   };
 
   const downloadButtonHandler = () => {
-    window.open(`http://192.168.1.105:3000/pdf/${id}`);
+    window.open(`http://localhost:3001/pdf/${id}`);
   };
   return (
     <>
