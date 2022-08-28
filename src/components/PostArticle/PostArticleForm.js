@@ -33,7 +33,7 @@ const PostArticleForm = () => {
     
         setIsLoading(true);
     
-        fetch("http://192.168.1.105:3000/users", {
+        fetch("http://localhost:3001/users", {
           method: "POST",
           body: data,
         })
