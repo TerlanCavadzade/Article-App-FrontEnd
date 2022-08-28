@@ -15,7 +15,7 @@ const ConfirmAcc = () => {
     e.preventDefault();
     const enteredCode = codeRef.current.value;
 
-    fetch("http://192.168.1.105:3000/confirm", {
+    fetch("http://localhost:3001/confirm", {
       method: "POST",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify({
