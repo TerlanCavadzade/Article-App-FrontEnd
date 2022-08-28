@@ -1,0 +1,9 @@
+.starting {
+  margin:auto auto;
+  padding-top: 3rem;
+  text-align: center;
+}
+
+.starting h1 {
+  font-size: 5rem;
+}

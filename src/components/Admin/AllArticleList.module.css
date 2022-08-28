@@ -1,0 +1,20 @@
+.headerText {
+    margin-top: 50px;
+    text-align: center;
+}
+
+.button{
+    border-radius: 6px;
+    background-color: #e35d23;
+    border: none;
+    padding: 6px 20px;
+    color: white;
+    font-size: 1rem;
+    transition: 1s;
+    cursor: pointer;
+}
+
+.button:hover{
+filter: drop-shadow(0 0 10px rgba(227,93,35,0.7));
+
+}

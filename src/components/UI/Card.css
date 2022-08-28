@@ -1,0 +1,17 @@
+.card {
+    margin: 3rem auto;
+    width: 95%;
+    max-width: 25rem;
+    border-radius: 6px;
+    box-shadow: 0 1px 4px rgba(0, 0, 0, 0.2);
+    padding: 1rem;
+    text-align: center;
+    background: linear-gradient(180deg,rgba(246,246,246,0.1) 0%,rgba(246,246,246,0.1) 100%);
+    backdrop-filter: blur(50px);
+  }
+  
+  .card h1 {
+    text-align: center;
+    color: black;
+    margin-bottom: 10px;
+  }

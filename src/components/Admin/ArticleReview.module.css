@@ -1,0 +1,29 @@
+.reviews,.about{
+    color: black;
+    font: inherit;
+}
+
+.actions {
+    margin-top: 1.5rem;
+    display: flex;
+    align-items: center;
+    justify-content: space-evenly;
+    flex-wrap: wrap;
+    gap: 20px;
+  }
+  
+  .actions button {
+    cursor: pointer;
+    font: inherit;
+    color: white;
+    background-color: #e35d23;
+    border: 1px solid #cc531f;
+    border-radius: 4px;
+    padding: 0.5rem 2.5rem;
+    transition: 1s;
+  }
+  
+  .actions button:hover {
+    filter: drop-shadow(0 0 10px rgba(227,93,35,0.7));
+    }
+  

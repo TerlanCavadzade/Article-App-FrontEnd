@@ -1,0 +1,40 @@
+.modal {
+    position: fixed;
+    top: calc(50% - 50px);
+    z-index: 100;
+    left: 50%;
+    transform: translate(-50%, -50%);
+}
+
+.modal .container {
+    width: 100%;
+    height: 300px;
+}
+
+.modal ul {
+    list-style: none;
+}
+
+.modal ul li {
+    color: white;
+    display: flex;
+    justify-content: space-around;
+    align-items: center;
+    font: inherit;
+    font-size: 18px;
+}
+
+.modal ul li button {
+    cursor: pointer;
+    font: inherit;
+    color: white;
+    background-color: #e35d23;
+    border: 1px solid #cc531f;
+    border-radius: 4px;
+    padding: 0.5rem 2.5rem;
+    transition: 1s;
+}
+
+.modal ul li button:hover {
+    filter: drop-shadow(0 0 10px rgba(227,93,35,0.7));
+}

@@ -1,0 +1,18 @@
+.table{
+    width: 95%;
+    margin-inline: auto;
+    border-collapse: collapse;
+}
+
+.table thead{
+    background: linear-gradient(90deg, rgba(158,158,158,0.24) 0%,rgba(158,158,158,0.8)48.89%),rgba(158,158,158,0.24) 100%;
+}
+
+.table :is(td,th){
+    padding: 17px 26px;
+    text-align: left;
+}
+
+.table tbody tr{
+    background: linear-gradient(90deg, rgba(217, 217, 217, 0.24) 0%,rgba(217, 217, 217, 0.8) 48.89%),rgba(217, 217, 217, 0.24) 100%;
+}

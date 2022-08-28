@@ -1,0 +1,65 @@
+.form {
+  width: 95%;
+  max-width: 25rem;
+  margin: 2rem auto;
+}
+
+.control {
+  margin-bottom: 0.5rem;
+}
+
+.control label {
+  display: block;
+  color: black;
+  font-weight: bold;
+  margin-bottom: 0.5rem;
+}
+.control p {
+  color: black;
+  margin-bottom: 0.5rem;
+}
+.control input, .control textarea {
+  font: inherit;
+  background-color: rgba(255, 255, 255, 0.75);
+  color: #1f1f1f;
+  border-radius: 4px;
+  border: 1px solid white;
+  width: 100%;
+  text-align: left;
+  padding: 0.25rem;
+}
+
+.actions {
+  margin-top: 1.5rem;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.actions button {
+  cursor: pointer;
+  font: inherit;
+  color: white;
+  background-color: #e35d23;
+  border: 1px solid #cc531f;
+  border-radius: 4px;
+  padding: 0.5rem 2.5rem;
+  transition: 1s;
+}
+
+.actions button:hover {
+filter: drop-shadow(0 0 10px rgba(227,93,35,0.7));
+}
+
+.actions .toggle {
+  margin-top: 1rem;
+  background-color: transparent;
+  color: #e35d23;
+  border: none;
+  padding: 0.15rem 1.5rem;
+}
+
+.actions .toggle:hover {
+  background-color: transparent;
+  color: #cc531f;
+}
