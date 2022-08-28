@@ -19,7 +19,7 @@ const ProfileForm = () => {
     const enteredOrcidId = orcidId.current.value;
     const enteredName = nameRef.current.value;
     setIsLoading(true);
-    fetch("http://192.168.1.105:3000/userprofile", {
+    fetch("http://localhost:3001/userprofile", {
       method: "POST",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify({
