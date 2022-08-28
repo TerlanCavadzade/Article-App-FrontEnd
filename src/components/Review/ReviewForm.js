@@ -9,12 +9,12 @@ const ReviewForm = () => {
   const navigate = useNavigate()
 
   const downloadButtonHandler = () => {
-    window.open(`http://192.168.1.105:3000/pdf/${id}`);
+    window.open(`http://localhost:3001/pdf/${id}`);
   };
   const formSubmitHandler = (e) => {
     e.preventDefault();
     const enteredReview = reviewRef.current.value;
-    fetch("http://192.168.1.105:3000/postreview", {
+    fetch("http://localhost:3001/postreview", {
       method: "POST",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify({
