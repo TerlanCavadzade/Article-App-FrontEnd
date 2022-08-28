@@ -7,7 +7,7 @@ const ArticleList = () => {
   const [articleData, setArticleData] = useState([]);
 
   useEffect(() => {
-    fetch(`http://192.168.1.105:3000/articles/${authCtx.token}`)
+    fetch(`http://localhost:3001/articles/${authCtx.token}`)
       .then((res) => res.json())
       .then((data) => {
         setArticleData(data);
