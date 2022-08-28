@@ -8,7 +8,7 @@ const UserProfile = (props) => {
   const { userId } = props;
   const [userInfo, setUserInfo] = useState({});
   useEffect(() => {
-    fetch("http://192.168.1.105:3000/user", {
+    fetch("http://localhost:3001/user", {
       method: "POST",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify({
