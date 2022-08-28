@@ -7,7 +7,7 @@ const UserList = (props) => {
   const { onConfirm, articleId, reviewerList } = props;
   const buttonClickHandler = (id) => {
     onConfirm();
-    fetch("http://192.168.1.105:3000/send", {
+    fetch("http://localhost:3001/send", {
       method: "POST",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify({
