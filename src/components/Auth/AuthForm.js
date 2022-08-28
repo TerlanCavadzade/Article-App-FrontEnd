@@ -28,7 +28,7 @@ const AuthForm = () => {
     setIsLoading(true);
 
     if (isLogin) {
-      fetch("http://192.168.1.105:3000/login", {
+      fetch("http://localhost:3001/login", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({
@@ -69,7 +69,7 @@ const AuthForm = () => {
     } else {
       const ifReviewer = reviewerCheckbox.current.checked;
 
-      fetch("http://192.168.1.105:3000/register", {
+      fetch("http://localhost:3001/register", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({
