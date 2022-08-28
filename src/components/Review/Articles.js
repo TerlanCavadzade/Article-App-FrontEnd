@@ -10,7 +10,7 @@ const Articles = () => {
   const [articleData, setArticleData] = useState([]);
   const { token } = ctx;
   useEffect(() => {
-    fetch(`http://192.168.1.105:3000/review/${token}`)
+    fetch(`http://localhost:3001/review/${token}`)
       .then((res) => {
         return res.json();
       })
