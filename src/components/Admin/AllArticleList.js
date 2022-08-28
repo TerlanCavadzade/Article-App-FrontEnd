@@ -19,14 +19,14 @@ const AllArticleList = () => {
   const [rerender, forceUpdate] = useReducer((x) => x + 1, 0);
 
   useEffect(() => {
-    fetch("http://192.168.1.105:3000/articles")
+    fetch("http://localhost:3001/articles")
       .then((res) => {
         return res.json();
       })
       .then((data) => {
         setArticleData(data);
       });
-    fetch("http://192.168.1.105:3000/reviewers")
+    fetch("http://localhost:3001/reviewers")
       .then((res) => {
         return res.json();
       })
@@ -55,7 +55,7 @@ const AllArticleList = () => {
   };
 
   const submitHandler = (status, id) => {
-    fetch(`http://192.168.1.105:3000/submit`, {
+    fetch(`http://localhost:3001/submit`, {
       method: "POST",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify({ status, id }),
