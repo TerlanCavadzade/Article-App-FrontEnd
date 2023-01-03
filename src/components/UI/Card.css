@@ -10,8 +10,8 @@
     backdrop-filter: blur(50px);
   }
   
-  .card h1 {
+.card h1 {
     text-align: center;
     color: black;
     margin-bottom: 10px;
-  }
+}

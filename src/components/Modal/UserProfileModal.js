@@ -4,21 +4,19 @@ import Card from "../UI/Card";
 import Backdrop from "./Backdrop";
 import classes from "./UserProfileModal.module.css";
 
+import axios from "axios"
+
+const ip = process.env.REACT_APP_BACKEND_IP
+
+
 const UserProfile = (props) => {
   const { userId } = props;
   const [userInfo, setUserInfo] = useState({});
   useEffect(() => {
-    fetch("http://localhost:3001/user", {
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({
+    axios.post(`${ip}/user`, {
         id: userId,
-      }),
     })
-      .then((res) => {
-        return res.json();
-      })
-      .then((data) => {
+      .then(({data}) => {
         setUserInfo(data);
       });
   }, [userId]);

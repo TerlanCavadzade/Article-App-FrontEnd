@@ -1,9 +1,13 @@
+import axios from "axios";
 import { useContext, useRef } from "react";
 import { useNavigate, useParams } from "react-router-dom";
 import AuthContext from "../../store/auth-context";
+import Button from "../UI/Button";
 import Card from "../UI/Card";
 
 import classes from "./AuthForm.module.css"
+
+const ip = process.env.REACT_APP_BACKEND_IP
 
 const ConfirmAcc = () => {
   const ctx = useContext(AuthContext);
@@ -15,32 +19,16 @@ const ConfirmAcc = () => {
     e.preventDefault();
     const enteredCode = codeRef.current.value;
 
-    fetch("http://localhost:3001/confirm", {
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({
+    axios.post(ip+"/confirm", {
         id,
         num: enteredCode,
-      }),
     })
-      .then((res) => {
-        if (res.ok) {
-          return res.json();
-        } else {
-          return res.json().then((data) => {
-            if (data && data.error) {
-              var err = data.error;
-            }
-            throw new Error(err);
-          });
-        }
-      })
-      .then((data) => {
+      .then(({data}) => {
         ctx.login(data._id, false, data.reviewer);
         navigate("/profile")
       })
       .catch((err) => {
-        alert(err);
+        alert(err.response.data.error);
       });
   };
   return (
@@ -52,7 +40,7 @@ const ConfirmAcc = () => {
           <p>The Code Sent Your Email Account</p>
         </div>
         <div className={classes.actions}>
-          <button>Submit</button>
+          <Button>Submit</Button>
         </div>
       </form>
     </Card>

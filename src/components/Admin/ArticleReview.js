@@ -1,7 +1,11 @@
-import { useCallback, useEffect, useState } from "react";
+import axios from "axios";
+import { useEffect, useState } from "react";
 import { useNavigate, useParams } from "react-router-dom";
+import Button from "../UI/Button";
 import Card from "../UI/Card";
 import classes from "./ArticleReview.module.css";
+
+const ip = process.env.REACT_APP_BACKEND_IP;
 
 const ArticleReview = () => {
   const { id } = useParams();
@@ -10,33 +14,34 @@ const ArticleReview = () => {
 
   const navigate = useNavigate();
 
-  const fetchData = useCallback(async () => {
-    await fetch(`http://localhost:3001/reviews/${id}`)
-      .then((res) => res.json())
-      .then((data) => {
-        setReviews(data.reviewList);
-        setAboutFile(data.foundFile);
-      });
-  }, [id]);
+
+
   useEffect(() => {
-    fetchData();
-  }, [fetchData]);
+    axios(`${ip}/reviews/${id}`).then(({ data }) => {
+      setReviews(data.reviewList);
+      setAboutFile(data.foundFile);
+    });
+  }, [id]);
+
+
   const submitHandler = (status) => {
-    fetch(`http://localhost:3001/submit`, {
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({ status, id }),
-    })
-      .then((res) => res.json())
-      .then((data) => {
+    axios
+      .put(`${ip}/submit`, {
+        status,
+        id,
+      })
+      .then(({ data }) => {
         alert(data);
         navigate("/adminPanel");
       });
   };
 
   const downloadButtonHandler = () => {
-    window.open(`http://localhost:3001/pdf/${id}`);
+    window.open(`${ip}/pdf/${id}`);
   };
+
+  console.log(reviews, aboutFile);
+
   return (
     <>
       {reviews && aboutFile ? (
@@ -57,20 +62,20 @@ const ArticleReview = () => {
           ))}
           {aboutFile.status === "Reviewed" && (
             <div className={classes.actions}>
-              <button
+              <Button
                 onClick={() => {
                   submitHandler("Rejected");
                 }}
               >
                 Reject
-              </button>
-              <button
+              </Button>
+              <Button
                 onClick={() => {
                   submitHandler("Accepted");
                 }}
               >
                 Accept
-              </button>
+              </Button>
             </div>
           )}
         </Card>

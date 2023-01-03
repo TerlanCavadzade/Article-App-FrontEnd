@@ -1,7 +1,12 @@
+import axios from "axios";
 import { useRef } from "react";
 import { useNavigate, useParams } from "react-router-dom";
+import Button from "../UI/Button";
 import Card from "../UI/Card";
-import "./ReviewForm.css";
+import classes from "./ReviewForm.module.css";
+
+const ip = process.env.REACT_APP_BACKEND_IP
+
 const ReviewForm = () => {
   const params = useParams();
   const { id } = params;
@@ -9,50 +14,34 @@ const ReviewForm = () => {
   const navigate = useNavigate()
 
   const downloadButtonHandler = () => {
-    window.open(`http://localhost:3001/pdf/${id}`);
+    window.open(`${ip}/pdf/${id}`);
   };
   const formSubmitHandler = (e) => {
     e.preventDefault();
     const enteredReview = reviewRef.current.value;
-    fetch("http://localhost:3001/postreview", {
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({
+    axios.post(`${ip}/postreview`, {
         reviewText: enteredReview,
         articleId: id,
-      }),
     })
-      .then((res) => {
-        if (res.ok) {
-          return res.json();
-        } else {
-          return res.json().then((data) => {
-            if (data && data.err) {
-              var err = data.err;
-            }
-            throw new Error(err);
-          });
-        }
-      })
-      .then((data) => {
+      .then(() => {
         navigate("/articles")
       })
       .catch((err) => {
-        alert(err);
+        alert(err.response.data.error);
       });
   };
   return (
     <Card>
-      <div className="actions downloadButton">
-        <button onClick={downloadButtonHandler}>Download File</button>
+      <div className={classes.actions}>
+        <Button onClick={downloadButtonHandler}>Download File</Button>
       </div>
       <form onSubmit={formSubmitHandler}>
-        <div className="control">
+        <div className={classes.control}>
           <label htmlFor="text">Your Review</label>
           <textarea ref={reviewRef} id="text"></textarea>
         </div>
-        <div className="actions">
-          <button>Submit</button>
+        <div className={classes.actions}>
+          <Button>Submit</Button>
         </div>
       </form>
     </Card>

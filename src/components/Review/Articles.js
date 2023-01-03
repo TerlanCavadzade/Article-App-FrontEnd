@@ -1,3 +1,4 @@
+import axios from "axios";
 import { useContext, useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import AuthContext from "../../store/auth-context";
@@ -5,16 +6,16 @@ import Table from "../UI/Table";
 
 import classes from "./Articles.module.css";
 
+const ip = process.env.REACT_APP_BACKEND_IP
+
+
 const Articles = () => {
   const ctx = useContext(AuthContext);
   const [articleData, setArticleData] = useState([]);
   const { token } = ctx;
   useEffect(() => {
-    fetch(`http://localhost:3001/review/${token}`)
-      .then((res) => {
-        return res.json();
-      })
-      .then((data) => {
+    axios(`${ip}/review/${token}`)
+      .then(({data}) => {
         setArticleData(data);
       });
   }, [token]);

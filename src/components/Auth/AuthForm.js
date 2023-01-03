@@ -1,9 +1,13 @@
+import axios from "axios";
 import { useContext, useRef, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import AuthContext from "../../store/auth-context";
+import Button from "../UI/Button";
 import Card from "../UI/Card";
 
 import classes from "./AuthForm.module.css";
+
+const ip = process.env.REACT_APP_BACKEND_IP
 
 const AuthForm = () => {
   const [isLogin, setIsLogin] = useState(true);
@@ -28,28 +32,12 @@ const AuthForm = () => {
     setIsLoading(true);
 
     if (isLogin) {
-      fetch("http://localhost:3001/login", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({
+      axios.post(`${ip}/login`, {
           password: enteredPassword,
           gmail: enteredEmail,
-        }),
       })
-        .then((res) => {
+        .then(({data}) => {
           setIsLoading(false);
-          if (res.ok) {
-            return res.json();
-          } else {
-            return res.json().then((data) => {
-              if (data && data.error) {
-                var err = data.error;
-              }
-              throw new Error(err);
-            });
-          }
-        })
-        .then((data) => {
           authCtx.login(data._id, data.admin, data.reviewer);
           if (data.confirmNum !== "confirmed") {
             authCtx.logout();
@@ -65,33 +53,17 @@ const AuthForm = () => {
             navigate("/post");
           }
         })
-        .catch((err) => alert(err));
+        .catch((err) => alert(err.response.data.error));
     } else {
       const ifReviewer = reviewerCheckbox.current.checked;
 
-      fetch("http://localhost:3001/register", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({
+      axios.post(`${ip}/register`, {
           password: enteredPassword,
           gmail: enteredEmail,
           reviewer: ifReviewer,
-        }),
       })
-        .then((res) => {
+        .then(({data}) => {
           setIsLoading(false);
-          if (res.ok) {
-            return res.json();
-          } else {
-            return res.json().then((data) => {
-              if (data && data.error) {
-                var err = data.error;
-              }
-              throw new Error(err);
-            });
-          }
-        })
-        .then((data) => {
           navigate(`/confirm/${data._id}`);
         })
         .catch((err) => alert(err));
@@ -124,7 +96,7 @@ const AuthForm = () => {
         )}
         <div className={classes.actions}>
           {!isLoading && (
-            <button>{isLogin ? "Login" : "Create Account"}</button>
+            <Button>{isLogin ? "Login" : "Create Account"}</Button>
           )}
           <button
             type="button"

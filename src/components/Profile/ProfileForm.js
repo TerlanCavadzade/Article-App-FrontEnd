@@ -1,6 +1,11 @@
+import axios from "axios";
 import { useContext, useRef, useState } from "react";
 import AuthContext from "../../store/auth-context";
+import Button from "../UI/Button";
 import classes from "./ProfileForm.module.css";
+
+
+const ip = process.env.REACT_APP_BACKEND_IP
 
 const ProfileForm = () => {
   const [isLoading, setIsLoading] = useState(false);
@@ -19,32 +24,18 @@ const ProfileForm = () => {
     const enteredOrcidId = orcidId.current.value;
     const enteredName = nameRef.current.value;
     setIsLoading(true);
-    fetch("http://localhost:3001/userprofile", {
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({
+    axios.post(`${ip}/userprofile`, {
         id: ctx.token,
         googleScholarId: enteredScholarId,
         researchGate: enteredResearchGate,
         orcidId: enteredOrcidId,
         name: enteredName,
-      }),
     })
-      .then((res) => {
+      .then((_) => {
         setIsLoading(false);
-        if (res.ok) {
-          return res.json();
-        } else {
-          return res.json().then((data) => {
-            if (data && data.error) {
-              var err = data.error;
-            }
-            throw new Error(err);
-          });
-        }
       })
       .catch((err) => {
-        alert(err);
+        alert(err.response.data.error);
       });
   };
   return (
@@ -65,7 +56,7 @@ const ProfileForm = () => {
         <label htmlFor="orcidId">Orcid Id</label>
         <input ref={orcidId} type="text" id="orcidId" />
       </div>
-      <div className={classes.actions}>{!isLoading && <button>Submit</button>}</div>
+      <div className={classes.actions}>{!isLoading && <Button>Submit</Button>}</div>
     </form>
   );
 };

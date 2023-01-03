@@ -3,31 +3,21 @@ import Card from "../UI/Card";
 import Backdrop from "./Backdrop";
 import classes from "./UserListModal.module.css";
 
+import axios from "axios"
+import Button from "../UI/Button";
+
+const ip = process.env.REACT_APP_BACKEND_IP
+
+
 const UserList = (props) => {
   const { onConfirm, articleId, reviewerList } = props;
   const buttonClickHandler = (id) => {
     onConfirm();
-    fetch("http://localhost:3001/send", {
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({
+    axios.post(`${ip}/send`, {
         articleId,
         reviewerId: id,
-      }),
     })
-      .then((res) => {
-        if (res.ok) res.json();
-        else {
-          return res.json().then((data) => {
-            if (data && data.error) {
-              var err = data.error;
-            }
-            throw new Error(err);
-          });
-        }
-      })
-      .then((data) => {})
-      .catch(err=>alert(err))
+      .catch(err=>alert(err.response.data.error))
   };
   return (
     <Card className={classes.modal}>
@@ -37,13 +27,13 @@ const UserList = (props) => {
           {reviewerList.map((data) => (
             <li key={data._id}>
               {data.gmail}{" "}
-              <button
+              <Button
                 onClick={() => {
                   buttonClickHandler(data._id);
                 }}
               >
                 Send
-              </button>
+              </Button>
             </li>
           ))}
         </ul>

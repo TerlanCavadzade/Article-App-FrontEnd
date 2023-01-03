@@ -1,8 +1,13 @@
+import axios from "axios";
 import { useContext, useRef, useState } from "react";
 import AuthContext from "../../store/auth-context";
+import Button from "../UI/Button";
 import Card from "../UI/Card";
 
 import classes from "./PostArticle.module.css"
+
+const ip = process.env.REACT_APP_BACKEND_IP
+
 
 const PostArticleForm = () => {
     const authCtx = useContext(AuthContext)
@@ -24,7 +29,7 @@ const PostArticleForm = () => {
         const enteredFile = fileInput.current.files[0];
         const enteredAbstract = abstractInput.current.value;
     
-        var data = new FormData();
+        const data = new FormData();
         data.append("file", enteredFile);
         data.append("name", enteredNames);
         data.append("keywords", enteredKeywords);
@@ -33,25 +38,13 @@ const PostArticleForm = () => {
     
         setIsLoading(true);
     
-        fetch("http://localhost:3001/users", {
-          method: "POST",
-          body: data,
-        })
-          .then((res) => {
+        axios.post(`${ip}/users`,
+          data)
+          .then(({data}) => {
+            console.log(data)
             setIsLoading(false);
-            if (res.ok) {
-              return res.json();
-            } else {
-              return res.json().then((data) => {
-                if (data && data.error) {
-                  var err = data.error;
-                }
-                throw new Error(err);
-              });
-            }
-          })
-          .then((data) => alert(data))
-          .catch((err) => alert(err));
+            alert(data)})
+          .catch((err) => alert(err.response.data.error));
       };
 
 
@@ -87,7 +80,7 @@ const PostArticleForm = () => {
           <label htmlFor="article">Your Article</label>
           <input ref={fileInput} type="file" id="article" required />
         </div>
-        <div className={classes.actions}>{!isLoading && <button>Submit</button>}</div>
+        <div className={classes.actions}>{!isLoading && <Button>Submit</Button>}</div>
       </form>
     </Card>
   );

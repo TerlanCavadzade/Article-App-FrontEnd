@@ -1,15 +1,18 @@
+import axios from "axios";
 import { useContext, useEffect, useState } from "react";
 import AuthContext from "../../store/auth-context";
 import Table from "../UI/Table";
+
+const ip = process.env.REACT_APP_BACKEND_IP
+
 
 const ArticleList = () => {
   const authCtx = useContext(AuthContext);
   const [articleData, setArticleData] = useState([]);
 
   useEffect(() => {
-    fetch(`http://localhost:3001/articles/${authCtx.token}`)
-      .then((res) => res.json())
-      .then((data) => {
+    axios(`${ip}/articles/${authCtx.token}`)
+      .then(({data}) => {
         setArticleData(data);
       });
   }, [authCtx.token]);

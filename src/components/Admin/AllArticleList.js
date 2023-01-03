@@ -1,10 +1,15 @@
+import classes from "./AllArticleList.module.css";
+
 import { useEffect, useReducer, useState } from "react";
+import { Link } from "react-router-dom";
+import axios from "axios";
+
 import Table from "../UI/Table";
 import UserListModal from "../Modal/UserListModal";
 import UserProfileModal from "../Modal/UserProfileModal";
-import { Link } from "react-router-dom";
+import Button from "../UI/Button";
 
-import classes from "./AllArticleList.module.css";
+const ip = process.env.REACT_APP_BACKEND_IP;
 
 const AllArticleList = () => {
   const [articleData, setArticleData] = useState([]);
@@ -19,20 +24,12 @@ const AllArticleList = () => {
   const [rerender, forceUpdate] = useReducer((x) => x + 1, 0);
 
   useEffect(() => {
-    fetch("http://localhost:3001/articles")
-      .then((res) => {
-        return res.json();
-      })
-      .then((data) => {
-        setArticleData(data);
-      });
-    fetch("http://localhost:3001/reviewers")
-      .then((res) => {
-        return res.json();
-      })
-      .then((data) => {
-        setReviewerList(data);
-      });
+    axios(`${ip}/articles`).then((res) => {
+      setArticleData(res.data);
+    });
+    axios(`${ip}/reviewers`).then((res) => {
+      setReviewerList(res.data);
+    });
   }, [rerender]);
 
   const buttonClickHandler = async (id) => {
@@ -55,13 +52,12 @@ const AllArticleList = () => {
   };
 
   const submitHandler = (status, id) => {
-    fetch(`http://localhost:3001/submit`, {
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({ status, id }),
-    })
-      .then((res) => res.json())
-      .then((data) => alert(data));
+    axios
+      .put(`${ip}/submit`, {
+        status,
+        id,
+      })
+      .then((res) => alert(res.data));
   };
 
   var pending = articleData.filter((e) => e.status === "Pending");
@@ -91,6 +87,7 @@ const AllArticleList = () => {
                 <th>Sender</th>
                 <th>File Name</th>
                 <th>Send</th>
+                <th></th>
               </tr>
             </thead>
             <tbody>
@@ -107,24 +104,22 @@ const AllArticleList = () => {
                     <Link to={data._id}>{data.fileName}</Link>
                   </td>
                   <td>
-                    <button
-                      className={classes.button}
+                    <Button
                       onClick={() => {
                         buttonClickHandler(data._id);
                       }}
                     >
                       Send
-                    </button>
+                    </Button>
                   </td>
                   <td>
-                    <button
-                      className={classes.button}
+                    <Button
                       onClick={() => {
                         submitHandler("Rejected", data._id);
                       }}
                     >
                       Reject
-                    </button>
+                    </Button>
                   </td>
                 </tr>
               ))}
@@ -157,18 +152,17 @@ const AllArticleList = () => {
                   <td>{data.fileName}</td>
                   <td>
                     <Link to={data._id}>
-                      <button className={classes.button}>Read</button>
+                      <Button>Read</Button>
                     </Link>
                   </td>
                   <td>
-                    <button
-                      className={classes.button}
+                    <Button
                       onClick={() => {
                         buttonClickHandler(data._id);
                       }}
                     >
                       Send
-                    </button>
+                    </Button>
                   </td>
                 </tr>
               ))}
@@ -200,7 +194,7 @@ const AllArticleList = () => {
                   <td>{data.fileName}</td>
                   <td>
                     <Link to={data._id}>
-                      <button className={classes.button}>Read</button>
+                      <Button>Read</Button>
                     </Link>
                   </td>
                 </tr>
@@ -233,7 +227,7 @@ const AllArticleList = () => {
                   <td>{data.fileName}</td>
                   <td>
                     <Link to={data._id}>
-                      <button className={classes.button}>Read</button>
+                      <Button>Read</Button>
                     </Link>
                   </td>
                 </tr>
@@ -266,7 +260,7 @@ const AllArticleList = () => {
                   <td>{data.fileName}</td>
                   <td>
                     <Link to={data._id}>
-                      <button className={classes.button}>Read</button>
+                      <Button>Read</Button>
                     </Link>
                   </td>
                 </tr>
